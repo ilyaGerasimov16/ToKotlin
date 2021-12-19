@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ToKotlin</string>
-    <string name="button_text">Button</string>
+    <string name="button_text">TestButton</string>
+    <string name="tittle_house">Дом: цвет, количество квартир, количество этажей</string>
 </resources>

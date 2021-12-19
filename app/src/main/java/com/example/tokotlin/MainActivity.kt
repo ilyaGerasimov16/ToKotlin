@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 
 
@@ -18,5 +19,15 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity,"Button pressed", Toast.LENGTH_SHORT).show()
             }
         })
+
+        val house = House("Оранжевый", 100, 9)
+
+        val color:TextView = findViewById(R.id.textView_color);
+        val countFlats:TextView = findViewById(R.id.textView_countFlats);
+        val countFloors:TextView = findViewById(R.id.textView_countFloors);
+
+        color.setText(house.color)
+        countFlats.setText(house.countFlat.toString())
+        countFloors.setText(house.countFloors.toString())
     }
 }
