@@ -46,6 +46,11 @@ class MainActivity : AppCompatActivity() {
         }
         tv.setText(text + result.toString())
         Log.d("my logs", "$result")
+
+
+        for (i in 1..20) {
+            Log.d("logs cycle", "$i")
+        }
     }
 }
 
