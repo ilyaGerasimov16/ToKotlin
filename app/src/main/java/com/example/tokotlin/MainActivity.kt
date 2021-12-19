@@ -48,11 +48,14 @@ class MainActivity : AppCompatActivity() {
         Log.d("my logs", "$result")
 
 
-        for (i in 0 until 20 ) {
-            Log.d("logs cycle", "$i")
+
+        val daysOfWeek = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+        daysOfWeek.forEach {
+            Log.d("logs cycle", "$it")
+        }
+
         }
     }
-}
 
 enum class WeatherType {
     SUNNY,
