@@ -21,14 +21,14 @@ class MainActivity : AppCompatActivity() {
         })
 
         val house = House("Оранжевый", 100, 9)
-
+        val newHouse = house.copy("Желтый")
 
         val color:TextView = findViewById(R.id.textView_color);
         val countFlats:TextView = findViewById(R.id.textView_countFlats);
         val countFloors:TextView = findViewById(R.id.textView_countFloors);
 
-        color.setText(house.color)
-        countFlats.setText(house.countFlat.toString())
-        countFloors.setText(house.countFloors.toString())
+        color.setText(newHouse.color)
+        countFlats.setText(newHouse.countFlat.toString())
+        countFloors.setText(newHouse.countFloors.toString())
     }
 }
