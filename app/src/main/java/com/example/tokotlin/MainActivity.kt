@@ -2,6 +2,7 @@ package com.example.tokotlin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -30,5 +31,12 @@ class MainActivity : AppCompatActivity() {
         color.setText(newHouse.color)
         countFlats.setText(newHouse.countFlat.toString())
         countFloors.setText(newHouse.countFloors.toString())
+
+
+        val result = if (true) 1 else 2
+        val text = "Result: "
+        val tv:TextView = findViewById<Button>(R.id.textView_branching)
+        tv.setText(text + result.toString())
+        Log.d("my logs", "$result")
     }
 }
