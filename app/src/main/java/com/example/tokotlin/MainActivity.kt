@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("my logs", "$result")
 
 
-        for (i in 20 downTo 0 ) {
+        for (i in 0 until 20 ) {
             Log.d("logs cycle", "$i")
         }
     }
