@@ -53,9 +53,8 @@ class MainActivity : AppCompatActivity() {
         for(day in daysOfWeek){
             Log.d("logs cycle", "$day")
         }
-
-        }
     }
+}
 
 enum class WeatherType {
     SUNNY,
