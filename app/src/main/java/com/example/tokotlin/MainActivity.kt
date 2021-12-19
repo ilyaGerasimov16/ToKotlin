@@ -50,8 +50,8 @@ class MainActivity : AppCompatActivity() {
 
 
         val daysOfWeek = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
-        daysOfWeek.forEach {
-            Log.d("logs cycle", "$it")
+        for(day in daysOfWeek){
+            Log.d("logs cycle", "$day")
         }
 
         }
