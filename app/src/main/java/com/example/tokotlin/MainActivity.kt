@@ -33,10 +33,26 @@ class MainActivity : AppCompatActivity() {
         countFloors.setText(newHouse.countFloors.toString())
 
 
-        val result = if (true) 1 else 2
+        var result = if (true) 1 else 2
         val text = "Result: "
         val tv:TextView = findViewById<Button>(R.id.textView_branching)
         tv.setText(text + result.toString())
         Log.d("my logs", "$result")
+
+        result = when(WeatherType.CLOUDY) {
+            WeatherType.SUNNY -> 1
+            WeatherType.RAINY -> 2
+            WeatherType.CLOUDY -> 3
+        }
+        tv.setText(text + result.toString())
+        Log.d("my logs", "$result")
     }
+}
+
+enum class WeatherType {
+    SUNNY,
+    RAINY,
+    CLOUDY,
+
+
 }
