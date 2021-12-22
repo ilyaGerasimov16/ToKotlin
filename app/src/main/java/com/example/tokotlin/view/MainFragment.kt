@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.tokotlin.R
 import com.example.tokotlin.databinding.ActivityMainBinding
 import com.example.tokotlin.databinding.FragmentMainBinding
+import com.example.tokotlin.viewModel.AppState
 import com.example.tokotlin.viewModel.MainViewModel
 
 
@@ -28,12 +29,16 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        viewModel.getLiveData().observe(viewLifecycleOwner, Observer<Any> { renderData(it) })
+        viewModel.getLiveData().observe(viewLifecycleOwner, Observer<AppState> { renderData(it) })
         viewModel.getWeatherFromServer()
     }
 
-    fun renderData(data:Any){
-        Toast.makeText(requireContext(), "Работает!", Toast.LENGTH_SHORT).show()
+    fun renderData(appState: AppState){
+        when(appState){
+            AppState.LOADING -> Toast.makeText(requireContext(), "Загрузка", Toast.LENGTH_SHORT).show()
+            AppState.SUCCESS -> Toast.makeText(requireContext(), "SUCCESS", Toast.LENGTH_SHORT).show()
+            AppState.ERROR -> TODO()
+        }
     }
 
     override fun onCreateView(

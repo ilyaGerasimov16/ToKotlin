@@ -5,16 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import java.lang.Thread.sleep
 
-class MainViewModel(private val lifeData:MutableLiveData<Any> = MutableLiveData()):ViewModel() {
+class MainViewModel(private val lifeData:MutableLiveData<AppState> = MutableLiveData()):ViewModel() {
 
-    fun getLiveData(): LiveData<Any>{
+    fun getLiveData(): LiveData<AppState>{
         return lifeData
     }
 
     fun getWeatherFromServer(){
         Thread{
-            sleep(2000)
-            lifeData.postValue(Any())
+            lifeData.postValue(AppState.LOADING)
+            sleep(5000)
+            lifeData.postValue(AppState.SUCCESS)
         }.start()
     }
 
