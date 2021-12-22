@@ -34,7 +34,7 @@ class MainFragment : Fragment() {
         viewModel.getWeatherFromServer()
     }
 
-    fun renderData(appState: AppState){
+    private fun renderData(appState: AppState){
         when(appState){
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
@@ -46,7 +46,13 @@ class MainFragment : Fragment() {
             }
             is AppState.Success -> {
                 binding.loadingLayout.visibility = View.GONE
-                Snackbar.make(binding.mainView,"Success", Snackbar.LENGTH_LONG).show()
+                binding.cityName.text = appState.weatherData.city.name
+                binding.cityCoordinates.text = "${appState.weatherData.city.lat} ${appState.weatherData.city.lon}"
+                binding.temperatureValue.text =  "${appState.weatherData.temperature}"
+                binding.feelsLikeValue.text =  "${appState.weatherData.feelsLike}"
+
+                Snackbar.make(binding.mainView,
+                    "Success", Snackbar.LENGTH_LONG).show()
             }
         }
     }
