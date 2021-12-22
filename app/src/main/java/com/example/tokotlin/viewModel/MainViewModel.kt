@@ -27,7 +27,6 @@ private val repositoryImpl: RepositoryImpl = RepositoryImpl()):ViewModel() {
             } else {
                 lifeData.postValue(AppState.Error(IllegalStateException("")))
             }
-
         }.start()
     }
 
