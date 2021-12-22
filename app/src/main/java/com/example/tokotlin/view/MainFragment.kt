@@ -35,9 +35,9 @@ class MainFragment : Fragment() {
 
     fun renderData(appState: AppState){
         when(appState){
-            AppState.LOADING -> Toast.makeText(requireContext(), "Загрузка", Toast.LENGTH_SHORT).show()
-            AppState.SUCCESS -> Toast.makeText(requireContext(), "SUCCESS", Toast.LENGTH_SHORT).show()
-            AppState.ERROR -> TODO()
+            is AppState.Error -> Toast.makeText(requireContext(), appState.error.message, Toast.LENGTH_SHORT).show()
+            is AppState.Loading -> Toast.makeText(requireContext(), "${appState.progress}", Toast.LENGTH_SHORT).show()
+            is AppState.Success -> Toast.makeText(requireContext(), appState.weatherData, Toast.LENGTH_SHORT).show()
         }
     }
 
