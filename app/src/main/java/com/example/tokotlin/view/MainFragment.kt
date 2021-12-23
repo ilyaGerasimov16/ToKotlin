@@ -31,15 +31,15 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer<AppState> { renderData(it) })
-        viewModel.getWeatherFromServer()
+        viewModel.getWeather()
     }
 
     private fun renderData(appState: AppState){
         when(appState){
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
-                Snackbar.make(binding.mainView,"Error", Snackbar.LENGTH_LONG).setAction("Попробовать ещё раз")
-                {viewModel.getWeatherFromServer()}.show()
+                Snackbar.make(binding.mainView,"Error", Snackbar.LENGTH_INDEFINITE).setAction("Попробовать ещё раз")
+                {viewModel.getWeather()}.show()
             }
             is AppState.Loading ->{
                 binding.loadingLayout.visibility = View.VISIBLE
