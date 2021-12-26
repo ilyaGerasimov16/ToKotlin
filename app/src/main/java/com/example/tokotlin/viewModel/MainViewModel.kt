@@ -15,18 +15,22 @@ private val repositoryImpl: RepositoryImpl = RepositoryImpl()):ViewModel() {
         return lifeData
     }
 
-    fun getWeatherFromServer(){
+    fun getWeatherFromLocalSourceRus() = getWeatherFromLocalServer(true)
+
+    fun getWeatherFromLocalSourceWorld() = getWeatherFromLocalServer(false)
+
+    fun getWeatherFromRemoteSource() = getWeatherFromLocalServer(true)   //в будущем реализуем
+
+    fun getWeatherFromLocalServer(isRussian:Boolean){
         Thread{
             lifeData.postValue(AppState.Loading(0))
             sleep(1000)
-            lifeData.postValue(AppState.Error(IllegalStateException("")))
-
-            val rand = (1..40).random()
-            if(rand>20){
-                lifeData.postValue(AppState.Success(repositoryImpl.getWeatherFromServer()))
-            } else {
-                lifeData.postValue(AppState.Error(IllegalStateException("")))
-            }
+                lifeData.postValue(AppState.Success(
+                    if (isRussian) {
+                        repositoryImpl.getWeatherFromLocalStorageRus()
+                    } else {
+                        repositoryImpl.getWeatherFromLocalStorageWorld()
+                    }))
         }.start()
     }
 

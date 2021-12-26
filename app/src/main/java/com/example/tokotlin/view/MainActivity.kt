@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.tokotlin.R
 import com.example.tokotlin.databinding.ActivityMainBinding
+import com.example.tokotlin.view.main.MainFragment
 
 
 class MainActivity : AppCompatActivity() {

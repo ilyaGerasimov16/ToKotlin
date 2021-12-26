@@ -1,15 +1,12 @@
-package com.example.tokotlin.view
+package com.example.tokotlin.view.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.tokotlin.R
-import com.example.tokotlin.databinding.ActivityMainBinding
 import com.example.tokotlin.databinding.FragmentMainBinding
 import com.example.tokotlin.viewModel.AppState
 import com.example.tokotlin.viewModel.MainViewModel
@@ -24,6 +21,9 @@ class MainFragment : Fragment() {
         return _binding!!
     }
 
+    private val adapter = MainFragmentAdapter()
+    private var isRussian:Boolean = true
+
 
     private lateinit var viewModel:MainViewModel
 
@@ -31,27 +31,47 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer<AppState> { renderData(it) })
-        viewModel.getWeather()
+        binding.mainFragmentRecyclerView.adapter = adapter
+
+        binding.mainFragmentFAB.setOnClickListener{
+            sentRequest()
+        }
+        viewModel.getWeatherFromLocalSourceRus()
+    }
+
+    private fun sentRequest(){
+        isRussian = !isRussian
+        if(isRussian){
+            viewModel.getWeatherFromLocalSourceRus()
+        }else{
+            viewModel.getWeatherFromLocalSourceWorld()
+        }
     }
 
     private fun renderData(appState: AppState){
         when(appState){
             is AppState.Error -> {
-                binding.loadingLayout.visibility = View.GONE
-                Snackbar.make(binding.mainView,"Error", Snackbar.LENGTH_INDEFINITE).setAction("Попробовать ещё раз")
-                {viewModel.getWeather()}.show()
+                binding.mainFragmentLoadingLayout.visibility = View.GONE
+                Snackbar.make(binding.root,"Error", Snackbar.LENGTH_INDEFINITE).setAction("Попробовать ещё раз")
+                {
+                    sentRequest()
+                }.show()
             }
             is AppState.Loading ->{
-                binding.loadingLayout.visibility = View.VISIBLE
+                binding.mainFragmentLoadingLayout.visibility = View.VISIBLE
             }
             is AppState.Success -> {
-                binding.loadingLayout.visibility = View.GONE
+                binding.mainFragmentLoadingLayout.visibility = View.GONE
+
+                adapter.setWeather(appState.weatherData)
+
+                /*
                 binding.cityName.text = appState.weatherData.city.name
                 binding.cityCoordinates.text = "${appState.weatherData.city.lat} ${appState.weatherData.city.lon}"
                 binding.temperatureValue.text =  "${appState.weatherData.temperature}"
-                binding.feelsLikeValue.text =  "${appState.weatherData.feelsLike}"
+                binding.feelsLikeValue.text =  "${appState.weatherData.feelsLike}"*/
 
-                Snackbar.make(binding.mainView,
+                Snackbar.make(binding.root,
                     "Success", Snackbar.LENGTH_LONG).show()
             }
         }
