@@ -5,34 +5,36 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.tokotlin.R
 import com.example.tokotlin.databinding.FragmentMainBinding
+import com.example.tokotlin.model.Weather
+import com.example.tokotlin.view.details.BUNDLE_KEY
+import com.example.tokotlin.view.details.DetailsFragment
+import com.example.tokotlin.view.details.OnItemClickListener
 import com.example.tokotlin.viewModel.AppState
 import com.example.tokotlin.viewModel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), OnItemClickListener {
 
-    var _binding: FragmentMainBinding? = null
+    private var _binding: FragmentMainBinding? = null
     private val binding:FragmentMainBinding
     get(){
         return _binding!!
     }
 
-    private val adapter = MainFragmentAdapter()
+    private val adapter = MainFragmentAdapter(this)
     private var isRussian:Boolean = true
-
 
     private lateinit var viewModel:MainViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        viewModel.getLiveData().observe(viewLifecycleOwner, Observer<AppState> { renderData(it) })
+        viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
         binding.mainFragmentRecyclerView.adapter = adapter
-
         binding.mainFragmentFAB.setOnClickListener{
             sentRequest()
         }
@@ -43,8 +45,10 @@ class MainFragment : Fragment() {
         isRussian = !isRussian
         if(isRussian){
             viewModel.getWeatherFromLocalSourceRus()
+            binding.mainFragmentFAB.setImageResource(R.drawable.ic_russia)
         }else{
             viewModel.getWeatherFromLocalSourceWorld()
+            binding.mainFragmentFAB.setImageResource(R.drawable.ic_earth)
         }
     }
 
@@ -62,15 +66,7 @@ class MainFragment : Fragment() {
             }
             is AppState.Success -> {
                 binding.mainFragmentLoadingLayout.visibility = View.GONE
-
                 adapter.setWeather(appState.weatherData)
-
-                /*
-                binding.cityName.text = appState.weatherData.city.name
-                binding.cityCoordinates.text = "${appState.weatherData.city.lat} ${appState.weatherData.city.lon}"
-                binding.temperatureValue.text =  "${appState.weatherData.temperature}"
-                binding.feelsLikeValue.text =  "${appState.weatherData.feelsLike}"*/
-
                 Snackbar.make(binding.root,
                     "Success", Snackbar.LENGTH_LONG).show()
             }
@@ -80,7 +76,7 @@ class MainFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentMainBinding.inflate(inflater,container,false)
         return binding.root
     }
@@ -92,5 +88,13 @@ class MainFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onInemClick(weather: Weather) {
+        val bundle = Bundle()
+        bundle.putParcelable(BUNDLE_KEY, weather)
+        requireActivity().supportFragmentManager.beginTransaction().
+        add(R.id.container, DetailsFragment.newInstance(bundle))
+            .addToBackStack("").commit()
     }
 }

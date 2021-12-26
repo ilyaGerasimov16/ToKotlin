@@ -5,42 +5,32 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.tokotlin.databinding.FragmentDetailsBinding
-import com.example.tokotlin.databinding.FragmentMainBinding
 import com.example.tokotlin.model.Weather
-import com.example.tokotlin.view.main.MainFragmentAdapter
-import com.example.tokotlin.viewModel.AppState
-import com.example.tokotlin.viewModel.MainViewModel
-import com.google.android.material.snackbar.Snackbar
 
-private const val BUNDLE_KEY = "JUST_KEY"
+const val BUNDLE_KEY = "JUST_KEY"
 
 class DetailsFragment : Fragment() {
 
-    var _binding: FragmentDetailsBinding? = null
+    private var _binding: FragmentDetailsBinding? = null
     private val binding:FragmentDetailsBinding
     get(){
         return _binding!!
     }
 
-    private val adapter = MainFragmentAdapter()
-    private var isRussian:Boolean = true
-
-
-    private lateinit var viewModel:MainViewModel
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val weather = arguments?.getParcelable<Weather>(BUNDLE_KEY)
         if (weather!= null){
-            binding.cityName.text = weather.city.name
-            binding.cityCoordinates.text = "${weather.city.lat} ${weather.city.lon}"
-            binding.temperatureValue.text =  "${weather.temperature}"
-            binding.feelsLikeValue.text =  "${weather.feelsLike}"
+            setWeatherData(weather)
         }
+    }
 
+    private fun setWeatherData(weather: Weather){
+        binding.cityName.text = weather.city.name
+        binding.cityCoordinates.text = "${weather.city.lat}${weather.city.lon}"
+        binding.temperatureValue.text =  "${weather.temperature}"
+        binding.feelsLikeValue.text =  "${weather.feelsLike}"
     }
 
 

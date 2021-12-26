@@ -4,13 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tokotlin.R
 import com.example.tokotlin.model.Weather
+import com.example.tokotlin.view.details.OnItemClickListener
 
-class MainFragmentAdapter:RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
-
+class MainFragmentAdapter(val listener:OnItemClickListener):RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
     private var weatherData:List<Weather> = listOf()
 
     fun setWeather(data:List<Weather>){
@@ -34,10 +33,8 @@ class MainFragmentAdapter:RecyclerView.Adapter<MainFragmentAdapter.MainViewHolde
         fun bind(weather: Weather){
             itemView.findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text = weather.city.name
             itemView.setOnClickListener{
-                Toast.makeText(itemView.context,"Работает ${weather.city.name}",Toast.LENGTH_SHORT).show()
+            listener.onInemClick(weather)
             }
         }
     }
-
-
 }
