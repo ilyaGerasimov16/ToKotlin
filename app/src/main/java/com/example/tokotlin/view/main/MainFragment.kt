@@ -25,7 +25,10 @@ class MainFragment : Fragment(), OnItemClickListener {
         return _binding!!
     }
 
-    private val adapter = MainFragmentAdapter(this)
+    private val adapter:MainFragmentAdapter by lazy {
+        MainFragmentAdapter(this)
+    }
+
     private var isRussian:Boolean = true
 
     private val viewModel: MainViewModel by lazy {
