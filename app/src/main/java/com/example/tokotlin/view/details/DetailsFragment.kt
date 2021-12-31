@@ -47,11 +47,7 @@ class DetailsFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(bundle: Bundle):DetailsFragment{
-            val fragment = DetailsFragment()
-            fragment.arguments = bundle
-            return fragment
-        }
+        fun newInstance(bundle: Bundle) = DetailsFragment().apply{arguments = bundle}
     }
 
     override fun onDestroy() {
