@@ -81,14 +81,14 @@ class MainFragment : Fragment(), OnItemClickListener {
                 is AppState.Success -> {
                     mainFragmentLoadingLayout.visibility = View.GONE
                     adapter.setWeather(appState.weatherData)
-                    Snackbar.make(
-                        root,
-                        "Success",
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                    root.showSnackbarWithoutAction("Success",Snackbar.LENGTH_SHORT)
                 }
             }
         }
+    }
+
+    fun View.showSnackbarWithoutAction(text:String,length:Int){
+        Snackbar.make(this, text, length).show()
     }
 
     override fun onCreateView(
