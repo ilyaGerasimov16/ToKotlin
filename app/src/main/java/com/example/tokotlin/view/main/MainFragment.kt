@@ -28,11 +28,12 @@ class MainFragment : Fragment(), OnItemClickListener {
     private val adapter = MainFragmentAdapter(this)
     private var isRussian:Boolean = true
 
-    private lateinit var viewModel:MainViewModel
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProvider(this).get(MainViewModel::class.java)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
         binding.mainFragmentRecyclerView.adapter = adapter
         binding.mainFragmentFAB.setOnClickListener{
