@@ -30,11 +30,14 @@ private val repositoryImpl: RepositoryImpl by lazy {
             lifeData.postValue(AppState.Loading(0))
             sleep(1000)
                 lifeData.postValue(AppState.Success(
-                    if (isRussian) {
-                        repositoryImpl.getWeatherFromLocalStorageRus()
-                    } else {
-                        repositoryImpl.getWeatherFromLocalStorageWorld()
-                    }))
+                    with(repositoryImpl){
+                        if (isRussian) {
+                            getWeatherFromLocalStorageRus()
+                        } else {
+                            getWeatherFromLocalStorageWorld()
+                        }
+                    }
+                    ))
         }.start()
     }
 }

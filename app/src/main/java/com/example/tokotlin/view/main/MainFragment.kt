@@ -49,37 +49,44 @@ class MainFragment : Fragment(), OnItemClickListener {
                 sentRequest()
             }
         }
-
     }
 
     private fun sentRequest(){
         isRussian = !isRussian
-        if(isRussian){
-            viewModel.getWeatherFromLocalSourceRus()
-            binding.mainFragmentFAB.setImageResource(R.drawable.ic_russia)
-        }else{
-            viewModel.getWeatherFromLocalSourceWorld()
-            binding.mainFragmentFAB.setImageResource(R.drawable.ic_earth)
-        }
+            with(binding){
+                if(isRussian){
+                    viewModel.getWeatherFromLocalSourceRus()
+                    mainFragmentFAB.setImageResource(R.drawable.ic_russia)
+                }else{
+                    viewModel.getWeatherFromLocalSourceWorld()
+                    mainFragmentFAB.setImageResource(R.drawable.ic_earth)
+                }
+            }
     }
 
     private fun renderData(appState: AppState){
-        when(appState){
-            is AppState.Error -> {
-                binding.mainFragmentLoadingLayout.visibility = View.GONE
-                Snackbar.make(binding.root,"Error", Snackbar.LENGTH_INDEFINITE).setAction("Попробовать ещё раз")
-                {
-                    sentRequest()
-                }.show()
-            }
-            is AppState.Loading ->{
-                binding.mainFragmentLoadingLayout.visibility = View.VISIBLE
-            }
-            is AppState.Success -> {
-                binding.mainFragmentLoadingLayout.visibility = View.GONE
-                adapter.setWeather(appState.weatherData)
-                Snackbar.make(binding.root,
-                    "Success", Snackbar.LENGTH_LONG).show()
+        with(binding){
+            when(appState){
+                is AppState.Error -> {
+                    mainFragmentLoadingLayout.visibility = View.GONE
+                    Snackbar.make(root, "Error", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Попробовать ещё раз")
+                    {
+                        sentRequest()
+                    }.show()
+                }
+                is AppState.Loading ->{
+                    mainFragmentLoadingLayout.visibility = View.VISIBLE
+                }
+                is AppState.Success -> {
+                    mainFragmentLoadingLayout.visibility = View.GONE
+                    adapter.setWeather(appState.weatherData)
+                    Snackbar.make(
+                        root,
+                        "Success",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
             }
         }
     }
@@ -102,10 +109,13 @@ class MainFragment : Fragment(), OnItemClickListener {
     }
 
     override fun onInemClick(weather: Weather) {
-        val bundle = Bundle()
-        bundle.putParcelable(BUNDLE_KEY, weather)
-        requireActivity().supportFragmentManager.beginTransaction().
-        add(R.id.container, DetailsFragment.newInstance(bundle))
-            .addToBackStack("").commit()
+        activity?.run {
+            supportFragmentManager.beginTransaction().
+            add(R.id.container, DetailsFragment.newInstance(
+                Bundle().apply {
+                putParcelable(BUNDLE_KEY, weather)
+            }))
+                .addToBackStack("").commit()
+        }
     }
 }
