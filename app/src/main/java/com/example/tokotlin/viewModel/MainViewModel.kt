@@ -8,8 +8,12 @@ import com.example.tokotlin.model.RepositoryImpl
 import java.lang.IllegalStateException
 import java.lang.Thread.sleep
 
-class MainViewModel(private val lifeData:MutableLiveData<AppState> = MutableLiveData(),
-private val repositoryImpl: RepositoryImpl = RepositoryImpl()):ViewModel() {
+class MainViewModel(private val lifeData:MutableLiveData<AppState> = MutableLiveData()):ViewModel(){
+
+private val repositoryImpl: RepositoryImpl by lazy {
+    RepositoryImpl()
+}
+
 
     fun getLiveData(): LiveData<AppState>{
         return lifeData
