@@ -37,12 +37,19 @@ class MainFragment : Fragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
         viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
-        binding.mainFragmentRecyclerView.adapter = adapter
-        binding.mainFragmentFAB.setOnClickListener{
-            sentRequest()
-        }
         viewModel.getWeatherFromLocalSourceRus()
+    }
+
+    private fun initView() {
+        with(binding){
+            mainFragmentRecyclerView.adapter = adapter
+            mainFragmentFAB.setOnClickListener {
+                sentRequest()
+            }
+        }
+
     }
 
     private fun sentRequest(){
