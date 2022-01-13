@@ -69,11 +69,10 @@ class MainFragment : Fragment(), OnItemClickListener {
             when(appState){
                 is AppState.Error -> {
                     mainFragmentLoadingLayout.visibility = View.GONE
-                    Snackbar.make(root, "Error", Snackbar.LENGTH_INDEFINITE)
-                        .setAction("Попробовать ещё раз")
-                    {
-                        sentRequest()
-                    }.show()
+                    root.showSnackBarWithAction(getString(R.string.error),
+                        getString(R.string.try_again),
+                        { sentRequest() },
+                        Snackbar.LENGTH_LONG)
                 }
                 is AppState.Loading ->{
                     mainFragmentLoadingLayout.visibility = View.VISIBLE
@@ -81,14 +80,23 @@ class MainFragment : Fragment(), OnItemClickListener {
                 is AppState.Success -> {
                     mainFragmentLoadingLayout.visibility = View.GONE
                     adapter.setWeather(appState.weatherData)
-                    root.showSnackbarWithoutAction("Success",Snackbar.LENGTH_SHORT)
+                    root.showSnackBarWithoutAction("Success",Snackbar.LENGTH_SHORT)
                 }
             }
         }
     }
 
-    fun View.showSnackbarWithoutAction(text:String,length:Int){
+    private fun View.showSnackBarWithoutAction(text:String,length:Int){
         Snackbar.make(this, text, length).show()
+    }
+
+    private fun View.showSnackBarWithAction(
+        text: String,
+        actionText: String,
+        action: (View) -> Unit,
+        length: Int = Snackbar.LENGTH_INDEFINITE
+    ) {
+        Snackbar.make(this, text, length).setAction(actionText, action).show()
     }
 
     override fun onCreateView(
