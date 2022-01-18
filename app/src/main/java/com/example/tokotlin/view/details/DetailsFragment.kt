@@ -10,6 +10,7 @@ import com.example.tokotlin.model.Weather
 import com.example.tokotlin.model.WeatherDTO
 import com.example.tokotlin.utils.BUNDLE_KEY
 import com.example.tokotlin.utils.WeatherLoader
+import com.google.android.material.snackbar.Snackbar
 
 
 class DetailsFragment : Fragment(),WeatherLoader.OnWeatherLoaded {
@@ -68,7 +69,7 @@ class DetailsFragment : Fragment(),WeatherLoader.OnWeatherLoaded {
         }
     }
 
-    override fun onFailed() {
-        TODO("Not yet implemented")
+    override fun onFailed(message:String) {
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
     }
 }

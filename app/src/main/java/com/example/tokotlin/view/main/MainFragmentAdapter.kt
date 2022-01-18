@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tokotlin.R
 import com.example.tokotlin.databinding.FragmentMainRecyclerCityItemBinding
 import com.example.tokotlin.model.Weather
 import com.example.tokotlin.view.details.OnItemClickListener

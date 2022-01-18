@@ -13,6 +13,8 @@ import javax.net.ssl.HttpsURLConnection
 
 class WeatherLoader (private val onWeatherLoaded: OnWeatherLoaded){
 
+
+
     fun loadWeather(lat:Double, lon:Double,){
         Thread{
             val url = URL("https://api.weather.yandex.ru/v2/informers?lat=$lat&lon=$lon")
@@ -26,6 +28,7 @@ class WeatherLoader (private val onWeatherLoaded: OnWeatherLoaded){
             Handler(Looper.getMainLooper()).post{
                 onWeatherLoaded.onLoaded(weatherDTO)
             }
+            onWeatherLoaded.onFailed("Ошибка")
         }.start()
     }
 
@@ -35,6 +38,7 @@ class WeatherLoader (private val onWeatherLoaded: OnWeatherLoaded){
 
     interface OnWeatherLoaded{
         fun onLoaded(weatherDTO: WeatherDTO?)
-        fun onFailed()
+        fun onFailed(message:String)
     }
 }
+

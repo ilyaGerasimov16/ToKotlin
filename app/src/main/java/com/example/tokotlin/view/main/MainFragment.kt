@@ -9,13 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.tokotlin.R
 import com.example.tokotlin.databinding.FragmentMainBinding
 import com.example.tokotlin.model.Weather
-import com.example.tokotlin.view.details.BUNDLE_KEY
+import com.example.tokotlin.utils.BUNDLE_KEY
 import com.example.tokotlin.view.details.DetailsFragment
 import com.example.tokotlin.view.details.OnItemClickListener
 import com.example.tokotlin.viewModel.AppState
 import com.example.tokotlin.viewModel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
-
 
 class MainFragment : Fragment(), OnItemClickListener {
 
