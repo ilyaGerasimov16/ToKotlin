@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import com.example.tokotlin.databinding.FragmentDetailsBinding
 import com.example.tokotlin.model.Weather
 import com.example.tokotlin.model.WeatherDTO
+import com.example.tokotlin.utils.BUNDLE_KEY
 import com.example.tokotlin.utils.WeatherLoader
 
-const val BUNDLE_KEY = "JUST_KEY"
 
 class DetailsFragment : Fragment(),WeatherLoader.OnWeatherLoaded {
 
