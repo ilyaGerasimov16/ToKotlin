@@ -31,11 +31,8 @@ class WeatherLoader (private val onWeatherLoaded: OnWeatherLoaded){
     }
 
     private fun convertBufferToResult(bufferedReader: BufferedReader):String {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            bufferedReader.lines().collect(Collectors.joining("\n"))
-        } else {
-            TODO("VERSION.SDK_INT < N")
-        }
+        return bufferedReader.lines().collect(Collectors.joining("\n"))
+
     }
 
     interface OnWeatherLoaded{
