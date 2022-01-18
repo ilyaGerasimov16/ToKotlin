@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.tokotlin.databinding.FragmentDetailsBinding
 import com.example.tokotlin.model.Weather
+import com.example.tokotlin.model.WeatherDTO
+import com.example.tokotlin.utils.WeatherLoader
 
 const val BUNDLE_KEY = "JUST_KEY"
 
-class DetailsFragment : Fragment() {
+class DetailsFragment : Fragment(),WeatherLoader.OnWeatherLoaded {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding:FragmentDetailsBinding
@@ -18,22 +20,27 @@ class DetailsFragment : Fragment() {
         return _binding!!
     }
 
+
+    private val weatherLoader = WeatherLoader( this)
+    lateinit var localWeather:Weather
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let{
-            it.getParcelable<Weather>(BUNDLE_KEY)?.run{
-                setWeatherData(this)
+            it.getParcelable<Weather>(BUNDLE_KEY)?.let{
+                localWeather = it
+                weatherLoader.loadWeather(it.city.lat, it.city.lon)
             }
         }
     }
 
-    private fun setWeatherData(weather: Weather){
+    private fun setWeatherData(weatherDTO: WeatherDTO){
         with(binding){
-            cityName.text = weather.city.name
-            cityCoordinates.text = "${weather.city.lat}${weather.city.lon}"
-            temperatureValue.text =  "${weather.temperature}"
-            feelsLikeValue.text =  "${weather.feelsLike}"
+            cityName.text = localWeather.city.name
+            cityCoordinates.text = "${localWeather.city.lat}${localWeather.city.lon}"
+            temperatureValue.text =  "${weatherDTO.fact.temp}"
+            feelsLikeValue.text =  "${weatherDTO.fact.feelsLike}"
         }
     }
 
@@ -53,5 +60,15 @@ class DetailsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onLoaded(weatherDTO: WeatherDTO?) {
+        weatherDTO?.let {
+            setWeatherData(weatherDTO)
+        }
+    }
+
+    override fun onFailed() {
+        TODO("Not yet implemented")
     }
 }
