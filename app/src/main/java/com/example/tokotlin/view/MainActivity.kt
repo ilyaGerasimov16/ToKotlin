@@ -1,11 +1,14 @@
 package com.example.tokotlin.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.example.tokotlin.R
 import com.example.tokotlin.databinding.ActivityMainBinding
+import com.example.tokotlin.lesson6.MAIN_SERVICE_KEY_EXTRAS
+import com.example.tokotlin.lesson6.MyService
 import com.example.tokotlin.lesson6.ThreadsFragment
 import com.example.tokotlin.view.main.MainFragment
 
@@ -22,6 +25,9 @@ class MainActivity : AppCompatActivity() {
         if(savedInstanceState == null) {
             supportFragmentManager.beginTransaction().replace(R.id.container, MainFragment.newInstance()).commit()
         }
+        startService(Intent(this, MyService::class.java).apply{
+            //putExtra(MAIN_SERVICE_KEY_EXTRAS, "Hello")
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
