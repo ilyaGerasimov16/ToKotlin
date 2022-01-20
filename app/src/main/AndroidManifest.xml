@@ -28,9 +28,7 @@
 
         </activity>
 
-        <service android:name=".lesson6.MyService">
-
-        </service>
+        <service android:name=".lesson6.MyService"/>
 
         <receiver
             android:enabled="true"
@@ -40,9 +38,9 @@
                 <action android:name="android.intent.action.ACTION_AIRPLANE_MODE_CHANGED"/>
                 <action android:name="myAction"/>
             </intent-filter>
-
         </receiver>
 
+        <service android:name=".view.details.DetailsService"/>
     </application>
 
 </manifest>
