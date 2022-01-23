@@ -10,11 +10,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.tokotlin.BuildConfig
 import com.example.tokotlin.databinding.FragmentDetailsBinding
 import com.example.tokotlin.model.Weather
 import com.example.tokotlin.model.WeatherDTO
 import com.example.tokotlin.utils.*
-
+import com.google.gson.Gson
+import okhttp3.*
+import java.io.IOException
 
 
 class DetailsFragment : Fragment() {
@@ -35,21 +38,51 @@ class DetailsFragment : Fragment() {
     }
 
 
-    lateinit var localWeather:Weather
+    private var client:OkHttpClient? = null
+
+    private fun getWeather(){
+        if(client==null) {
+            client = OkHttpClient()
+        }
+
+        val builder = Request.Builder().apply {
+            header(API_KEY,BuildConfig.WEATHER_API_KEY)
+            url(YANDEX_API_URL + YANDEX_API_URL_END_POINT + "?lat=${localWeather.city.lat}&" +
+                    "lon=${localWeather.city.lon}")
+        }
+        val request = builder.build()
+        val call = client?.newCall(request)
+        call?.enqueue(object : Callback{
+            override fun onFailure(call: Call, e: IOException) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if(response.isSuccessful){
+                    response.body()?.let {
+                        val json = it.string()
+                        requireActivity().runOnUiThread{
+                            setWeatherData(Gson().fromJson(json, WeatherDTO::class.java ))
+                        }
+                    }
+                }else{
+
+                }
+            }
+        })
+
+    }
+
+    private lateinit var localWeather:Weather
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let{
-            it.getParcelable<Weather>(BUNDLE_KEY)?.let{
+            it.getParcelable<Weather>(BUNDLE_KEY)?.let {
                 localWeather = it
-                requireActivity().startService(Intent(requireActivity(),DetailsService::class.java).apply {
-                    putExtra(BUNDLE_KEY_LAT,it.city.lat)
-                    putExtra(BUNDLE_KEY_LON,it.city.lon)
-                })
+                getWeather()
             }
         }
-
-        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(receiver, IntentFilter(BROADCAST_ACTION))
     }
 
     private fun setWeatherData(weatherDTO: WeatherDTO){
