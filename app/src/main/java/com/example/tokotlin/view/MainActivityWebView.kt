@@ -1,10 +1,10 @@
 package com.example.tokotlin.view
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import com.example.tokotlin.databinding.ActivityMainWebviewBinding
 import java.io.BufferedReader
 import java.io.InputStreamReader

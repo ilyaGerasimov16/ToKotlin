@@ -3,7 +3,7 @@ package com.example.tokotlin.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.tokotlin.model.RepositoryImpl
+import com.example.tokotlin.repository.RepositoryImpl
 import java.lang.Thread.sleep
 
 class MainViewModel(private val lifeData:MutableLiveData<AppState> = MutableLiveData()):ViewModel(){

@@ -7,7 +7,6 @@ import com.example.tokotlin.model.WeatherDTO
 import com.google.gson.Gson
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.lang.Exception
 import java.net.URL
 import java.util.stream.Collectors
 import javax.net.ssl.HttpsURLConnection

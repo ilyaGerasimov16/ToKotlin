@@ -1,15 +1,15 @@
 package com.example.tokotlin.view
 
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.example.tokotlin.R
 import com.example.tokotlin.databinding.ActivityMainBinding
-import com.example.tokotlin.lesson6.*
+import com.example.tokotlin.lesson6.MyBroadcastReceiver
+import com.example.tokotlin.lesson6.ThreadsFragment
 import com.example.tokotlin.view.main.MainFragment
-
 
 
 class MainActivity : AppCompatActivity() {
