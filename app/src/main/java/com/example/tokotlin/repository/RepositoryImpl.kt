@@ -1,12 +1,15 @@
 package com.example.tokotlin.repository
 
 import com.example.tokotlin.BuildConfig
+import com.example.tokotlin.model.WeatherDTO
 import com.example.tokotlin.model.getRussianCities
 import com.example.tokotlin.model.getWorldCities
-import com.example.tokotlin.utils.API_KEY
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import com.example.tokotlin.utils.YANDEX_API_URL
+import com.google.gson.GsonBuilder
+import retrofit2.Callback
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 class RepositoryImpl: RepositoryCitiesList,RepositoryDetails {
 
@@ -14,17 +17,18 @@ class RepositoryImpl: RepositoryCitiesList,RepositoryDetails {
 
     override fun getWeatherFromLocalStorageWorld() = getWorldCities()
 
-    override fun getWeatherFromServer(url: String, callback: Callback) {
-        val builder = Request.Builder().apply {
-            header(API_KEY, BuildConfig.WEATHER_API_KEY)
-            //url(YANDEX_API_URL + YANDEX_API_URL_END_POINT + "?lat=${localWeather.city.lat}&" + "lon=${localWeather.city.lon}")
-            url(url)
-        }
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(YANDEX_API_URL)
+        .addConverterFactory(
+            GsonConverterFactory.create(
+                GsonBuilder().setLenient().create()
+            )
+        )
+        .build().create(WeatherApi::class.java)
 
-        OkHttpClient().newCall(builder.build()).enqueue(callback)
+    override fun getWeatherFromServer(lat:Double, lon:Double, callback: Callback<WeatherDTO>) {
+
+        retrofit.getWeather(BuildConfig.WEATHER_API_KEY, lat,lon).enqueue(callback)
+
     }
-
-    //private var client: OkHttpClient? = null
-
-
 }

@@ -1,7 +1,7 @@
 package com.example.tokotlin.repository
 
-import okhttp3.Callback
+import com.example.tokotlin.model.WeatherDTO
 
 interface RepositoryDetails {
-    fun getWeatherFromServer(url:String, callback: Callback)
+    fun getWeatherFromServer(lat:Double, lon:Double, callback: retrofit2.Callback<WeatherDTO>)
 }
