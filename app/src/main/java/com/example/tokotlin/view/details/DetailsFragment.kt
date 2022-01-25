@@ -6,11 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import coil.api.load
+import com.bumptech.glide.Glide
 import com.example.tokotlin.databinding.FragmentDetailsBinding
 import com.example.tokotlin.model.Weather
 import com.example.tokotlin.utils.BUNDLE_KEY
 import com.example.tokotlin.viewModel.AppState
 import com.example.tokotlin.viewModel.DetailsViewModel
+import com.squareup.picasso.Picasso
 
 
 class DetailsFragment : Fragment() {
@@ -64,8 +67,18 @@ class DetailsFragment : Fragment() {
             cityCoordinates.text = "${localWeather.city.lat}${localWeather.city.lon}"
             temperatureValue.text =  "${weather.temperature}"
             feelsLikeValue.text =  "${weather.feelsLike}"
+
+            /*Glide.with(headerIcon.context).load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
+                .into(headerIcon)
+
+            Picasso.get().load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
+                .into(headerIcon)*/
+
+            headerIcon.load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
         }
     }
+
+
 
 
     override fun onCreateView(
