@@ -4,16 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import coil.api.load
-import com.bumptech.glide.Glide
+import coil.ImageLoader
+import coil.decode.SvgDecoder
+import coil.load
+import coil.request.ImageRequest
 import com.example.tokotlin.databinding.FragmentDetailsBinding
 import com.example.tokotlin.model.Weather
 import com.example.tokotlin.utils.BUNDLE_KEY
 import com.example.tokotlin.viewModel.AppState
 import com.example.tokotlin.viewModel.DetailsViewModel
-import com.squareup.picasso.Picasso
 
 
 class DetailsFragment : Fragment() {
@@ -75,8 +77,25 @@ class DetailsFragment : Fragment() {
                 .into(headerIcon)*/
 
             headerIcon.load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
+
+            weatherIcon.loadUrl("https://yastatic.net/weather/i/icons/funky/dark/${weather.icon}.svg")
         }
     }
+
+    private fun ImageView.loadUrl(url:String){
+        val imageLoader = ImageLoader.Builder(this.context)
+            .componentRegistry{ add(SvgDecoder(this@loadUrl.context)) }
+            .build()
+
+        val request = ImageRequest.Builder(this.context)
+            .data(url)
+            .target(this)
+            .build()
+
+        imageLoader.enqueue(request)
+    }
+
+
 
 
 
