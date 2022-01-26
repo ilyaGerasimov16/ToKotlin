@@ -36,12 +36,20 @@ private val repositoryImpl: RepositoryImpl by lazy {
         }
 
         override fun onResponse(call: Call<WeatherDTO>, response: Response<WeatherDTO>) {
-            if(response.isSuccessful){
-                response.body()?.let {
-                    lifeData.postValue(AppState.Success(converterDTOToModel(it)))
+            if (response.body() != null){
+                if(response.isSuccessful){
+                    response.body()?.let {
+                        lifeData.postValue(AppState.Success(converterDTOToModel(it)))
+                    }
+                }else{
+                    if(response.code() in 300..399){
+                        lifeData.postValue(AppState.Error(error = Throwable("Redirect")))
+                    } else if (response.code() in 400..499){
+                        lifeData.postValue(AppState.Error(error = Throwable("Client Error")))
+                    }
                 }
-            }else{
-                //
+            } else{
+                lifeData.postValue(AppState.Error(error = Throwable("Нет связи с сервером")))
             }
         }
     }

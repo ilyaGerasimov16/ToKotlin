@@ -16,6 +16,7 @@ import com.example.tokotlin.model.Weather
 import com.example.tokotlin.utils.BUNDLE_KEY
 import com.example.tokotlin.viewModel.AppState
 import com.example.tokotlin.viewModel.DetailsViewModel
+import com.google.android.material.snackbar.Snackbar
 
 
 class DetailsFragment : Fragment() {
@@ -34,17 +35,22 @@ class DetailsFragment : Fragment() {
         with(binding){
             when(appState){
                 is AppState.Error -> {
-                    //
+                    loadingLayout.visibility = View.GONE
+                    root.showSnackBarOnError("$appState.error.message")
                 }
                 is AppState.Loading ->{
-                    //
+                    loadingLayout.visibility = View.VISIBLE
                 }
                 is AppState.Success -> {
+                    loadingLayout.visibility = View.GONE
                     val weather = appState.weatherData[0]
                     setWeatherData(weather)
                 }
             }
         }
+    }
+    private fun View.showSnackBarOnError(text:String){
+        Snackbar.make(this, text, Snackbar.LENGTH_INDEFINITE).show()
     }
 
 
@@ -70,12 +76,6 @@ class DetailsFragment : Fragment() {
             temperatureValue.text =  "${weather.temperature}"
             feelsLikeValue.text =  "${weather.feelsLike}"
 
-            /*Glide.with(headerIcon.context).load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
-                .into(headerIcon)
-
-            Picasso.get().load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
-                .into(headerIcon)*/
-
             headerIcon.load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
 
             weatherIcon.loadUrl("https://yastatic.net/weather/i/icons/funky/dark/${weather.icon}.svg")
@@ -94,11 +94,6 @@ class DetailsFragment : Fragment() {
 
         imageLoader.enqueue(request)
     }
-
-
-
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
