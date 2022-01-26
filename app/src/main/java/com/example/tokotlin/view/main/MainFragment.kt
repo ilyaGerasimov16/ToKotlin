@@ -76,9 +76,9 @@ class MainFragment : Fragment(), OnItemClickListener {
                 is AppState.Loading ->{
                     mainFragmentLoadingLayout.visibility = View.VISIBLE
                 }
-                is AppState.Success -> {
+                is AppState.SuccessCity -> {
                     mainFragmentLoadingLayout.visibility = View.GONE
-                    adapter.setWeather(appState.weatherData)
+                    adapter.setWeather(appState.weatherDataCity)
                     root.showSnackBarWithoutAction("Success",Snackbar.LENGTH_SHORT)
                 }
             }

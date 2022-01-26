@@ -27,7 +27,7 @@ private val repositoryImpl: RepositoryImpl by lazy {
         Thread{
             lifeData.postValue(AppState.Loading(0))
             sleep(1000)
-                lifeData.postValue(AppState.Success(
+                lifeData.postValue(AppState.SuccessCity(
                     with(repositoryImpl){
                         if (isRussian) {
                             getWeatherFromLocalStorageRus()

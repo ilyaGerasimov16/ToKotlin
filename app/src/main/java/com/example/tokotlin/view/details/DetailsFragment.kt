@@ -13,6 +13,7 @@ import coil.load
 import coil.request.ImageRequest
 import com.example.tokotlin.databinding.FragmentDetailsBinding
 import com.example.tokotlin.model.Weather
+import com.example.tokotlin.model.WeatherDTO
 import com.example.tokotlin.utils.BUNDLE_KEY
 import com.example.tokotlin.viewModel.AppState
 import com.example.tokotlin.viewModel.DetailsViewModel
@@ -41,9 +42,9 @@ class DetailsFragment : Fragment() {
                 is AppState.Loading ->{
                     loadingLayout.visibility = View.VISIBLE
                 }
-                is AppState.Success -> {
+                is AppState.SuccessDetails -> {
                     loadingLayout.visibility = View.GONE
-                    val weather = appState.weatherData[0]
+                    val weather = appState.weatherData
                     setWeatherData(weather)
                 }
             }
@@ -61,7 +62,7 @@ class DetailsFragment : Fragment() {
         viewModel.getLiveData().observe(viewLifecycleOwner, {
             renderData(it)
         })
-        arguments?.let{
+        arguments?.let{ it ->
             it.getParcelable<Weather>(BUNDLE_KEY)?.let {
                 localWeather = it
                 viewModel.getWeatherFromRemoteServer(localWeather.city.lat, localWeather.city.lon )
@@ -69,16 +70,16 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun setWeatherData(weather: Weather){
+    private fun setWeatherData(weather: WeatherDTO){
         with(binding){
             cityName.text = localWeather.city.name
             cityCoordinates.text = "${localWeather.city.lat}${localWeather.city.lon}"
-            temperatureValue.text =  "${weather.temperature}"
-            feelsLikeValue.text =  "${weather.feelsLike}"
+            temperatureValue.text =  "${weather.fact.temp}"
+            feelsLikeValue.text =  "${weather.fact.feelsLike}"
 
             headerIcon.load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
 
-            weatherIcon.loadUrl("https://yastatic.net/weather/i/icons/funky/dark/${weather.icon}.svg")
+            weatherIcon.loadUrl("https://yastatic.net/weather/i/icons/funky/dark/${weather.fact.icon}.svg")
         }
     }
 
