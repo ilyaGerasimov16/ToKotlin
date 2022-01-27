@@ -1,7 +1,9 @@
 package com.example.tokotlin.view
 
 
+import android.content.Context
 import android.os.Bundle
+import android.preference.PreferenceManager.getDefaultSharedPreferences
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +17,6 @@ import com.example.tokotlin.view.main.MainFragment
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val receiver = MyBroadcastReceiver()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +26,20 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction().replace(R.id.container, MainFragment.newInstance()).commit()
         }
 
+        val sp = getSharedPreferences("TAG",Context.MODE_PRIVATE)
 
+        val activityP = getPreferences(Context.MODE_PRIVATE) // на уровне activity
+
+        val appP = getDefaultSharedPreferences(this) // на уровне приложения
+
+        appP.getString("key", "")
+
+        val editor = appP.edit()
+        editor.putString("key","value")
+        editor.putString("key2","value2")
+        editor.putString("key3","value3")
+        editor.putBoolean("key4",true)
+        editor.apply()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -45,10 +59,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterReceiver(receiver)
-    }
-
 }
