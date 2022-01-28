@@ -1,9 +1,13 @@
 package com.example.tokotlin.room
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
 @Dao
 interface HistoryWeatherDAO {
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(entity: HistoryWeatherEntity)
 
@@ -11,7 +15,6 @@ interface HistoryWeatherDAO {
     fun getAllHistoryWeather():List<HistoryWeatherEntity>
 
     //fun getAllHistoryWeather() // TODO получить по какому-то полю
-
 
 
     /*

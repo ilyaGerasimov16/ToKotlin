@@ -2,8 +2,6 @@ package com.example.tokotlin.repository
 
 import com.example.tokotlin.BuildConfig
 import com.example.tokotlin.model.WeatherDTO
-import com.example.tokotlin.model.getRussianCities
-import com.example.tokotlin.model.getWorldCities
 import com.example.tokotlin.utils.YANDEX_API_URL
 import com.google.gson.GsonBuilder
 import retrofit2.Callback
@@ -11,11 +9,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class RepositoryImpl: RepositoryCitiesList,RepositoryDetails {
+class RepositoryRemoteImpl: RepositoryDetails {
 
-    override fun getWeatherFromLocalStorageRus() = getRussianCities()
-
-    override fun getWeatherFromLocalStorageWorld() = getWorldCities()
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(YANDEX_API_URL)

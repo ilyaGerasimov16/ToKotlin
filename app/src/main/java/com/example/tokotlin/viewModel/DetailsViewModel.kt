@@ -3,25 +3,33 @@ package com.example.tokotlin.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.tokotlin.model.Weather
 import com.example.tokotlin.model.WeatherDTO
-import com.example.tokotlin.repository.RepositoryImpl
+import com.example.tokotlin.repository.RepositoryLocalImpl
+import com.example.tokotlin.repository.RepositoryRemoteImpl
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailsViewModel(private val lifeData:MutableLiveData<AppState> = MutableLiveData()):ViewModel(){
+class DetailsViewModel(private val lifeData:MutableLiveData<AppState> = MutableLiveData(),
+    private val repositoryLocalImpl: RepositoryLocalImpl = RepositoryLocalImpl()
+):ViewModel(){
 
-private val repositoryImpl: RepositoryImpl by lazy {
-    RepositoryImpl()
-}
+    private val repositoryRemoteImpl: RepositoryRemoteImpl by lazy {
+        RepositoryRemoteImpl()
+    }
 
     fun getLiveData(): LiveData<AppState>{
         return lifeData
     }
 
+    fun saveWeather(weather: Weather){
+        repositoryLocalImpl.saveWeather(weather)
+    }
+
     fun getWeatherFromRemoteServer(lat:Double, lon:Double){
         lifeData.postValue(AppState.Loading(0))
-        repositoryImpl.getWeatherFromServer(lat,lon,callback)
+        repositoryRemoteImpl.getWeatherFromServer(lat,lon,callback)
     }
 
     private val callback = object : Callback<WeatherDTO> {

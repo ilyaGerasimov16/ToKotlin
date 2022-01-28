@@ -3,13 +3,13 @@ package com.example.tokotlin.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.tokotlin.repository.RepositoryImpl
+import com.example.tokotlin.repository.RepositoryLocalImpl
 import java.lang.Thread.sleep
 
 class MainViewModel(private val lifeData:MutableLiveData<AppState> = MutableLiveData()):ViewModel(){
 
-private val repositoryImpl: RepositoryImpl by lazy {
-    RepositoryImpl()
+private val repositoryLocalImpl: RepositoryLocalImpl by lazy {
+    RepositoryLocalImpl()
 }
 
 
@@ -28,7 +28,7 @@ private val repositoryImpl: RepositoryImpl by lazy {
             lifeData.postValue(AppState.Loading(0))
             sleep(1000)
                 lifeData.postValue(AppState.SuccessCity(
-                    with(repositoryImpl){
+                    with(repositoryLocalImpl){
                         if (isRussian) {
                             getWeatherFromLocalStorageRus()
                         } else {

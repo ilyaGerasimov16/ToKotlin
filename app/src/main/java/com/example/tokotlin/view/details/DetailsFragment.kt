@@ -18,6 +18,7 @@ import com.example.tokotlin.utils.BUNDLE_KEY
 import com.example.tokotlin.viewModel.AppState
 import com.example.tokotlin.viewModel.DetailsViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_details.*
 
 
 class DetailsFragment : Fragment() {
@@ -71,6 +72,7 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setWeatherData(weather: WeatherDTO){
+
         with(binding){
             cityName.text = localWeather.city.name
             cityCoordinates.text = "${localWeather.city.lat}${localWeather.city.lon}"
