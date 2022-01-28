@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tokotlin.model.Weather
 import com.example.tokotlin.model.WeatherDTO
+import com.example.tokotlin.model.getDefaultCity
 import com.example.tokotlin.repository.RepositoryLocalImpl
 import com.example.tokotlin.repository.RepositoryRemoteImpl
 import retrofit2.Call
@@ -32,6 +33,10 @@ class DetailsViewModel(private val lifeData:MutableLiveData<AppState> = MutableL
         repositoryRemoteImpl.getWeatherFromServer(lat,lon,callback)
     }
 
+    fun converterDTOToModel(weatherDTO: WeatherDTO):Weather{
+        return Weather(getDefaultCity(),weatherDTO.fact.temp.toInt(),weatherDTO.fact.feelsLike.toInt(),weatherDTO.fact.icon)
+    }
+
     private val callback = object : Callback<WeatherDTO> {
         override fun onFailure(call: Call<WeatherDTO>, t:Throwable) {
             TODO("Not yet implemented")
@@ -41,7 +46,7 @@ class DetailsViewModel(private val lifeData:MutableLiveData<AppState> = MutableL
             if (response.body() != null){
                 if(response.isSuccessful){
                     response.body()?.let {
-                        lifeData.postValue(AppState.SuccessDetails(it))
+                        lifeData.postValue(AppState.SuccessDetails(converterDTOToModel(it)))
                     }
                 }else{
                     if(response.code() in 300..399){

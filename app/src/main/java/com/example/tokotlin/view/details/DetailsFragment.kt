@@ -71,17 +71,20 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun setWeatherData(weather: WeatherDTO){
+    private fun setWeatherData(weather: Weather){
 
         with(binding){
+            weatherIcon.setOnClickListener{
+                viewModel.saveWeather(weather)
+            }
             cityName.text = localWeather.city.name
             cityCoordinates.text = "${localWeather.city.lat}${localWeather.city.lon}"
-            temperatureValue.text =  "${weather.fact.temp}"
-            feelsLikeValue.text =  "${weather.fact.feelsLike}"
+            temperatureValue.text =  "${weather.temperature}"
+            feelsLikeValue.text =  "${weather.feelsLike}"
 
             headerIcon.load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
 
-            weatherIcon.loadUrl("https://yastatic.net/weather/i/icons/funky/dark/${weather.fact.icon}.svg")
+            weatherIcon.loadUrl("https://yastatic.net/weather/i/icons/funky/dark/${weather.icon}.svg")
         }
     }
 
