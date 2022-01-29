@@ -11,5 +11,4 @@
     <string name="try_again">Попробуйте ещё раз</string>
     <string name="button_calculate_text">calculate</string>
     <string name="item_menu_threads_text">Потоки</string>
-    <string name="item_menu_history">History</string>
 </resources>

@@ -12,7 +12,7 @@ import com.example.tokotlin.databinding.FragmentHistoryRecyclerCityItemBinding
 import com.example.tokotlin.model.Weather
 import com.example.tokotlin.view.details.OnItemClickListener
 
-class CitiesHistoryAdapter(val listener:OnItemClickListener):RecyclerView.Adapter<CitiesHistoryAdapter.HistoryCityViewHolder>() {
+class CitiesHistoryAdapter(val listener: OnCityItemClickListener):RecyclerView.Adapter<CitiesHistoryAdapter.HistoryViewHolder>() {
     private var weatherData:List<Weather> = listOf()
 
     fun setWeather(data:List<Weather>){
@@ -22,16 +22,16 @@ class CitiesHistoryAdapter(val listener:OnItemClickListener):RecyclerView.Adapte
 
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int
-    ): CitiesHistoryAdapter.HistoryCityViewHolder {
+    ): CitiesHistoryAdapter.HistoryViewHolder {
         val binding: FragmentHistoryRecyclerCityItemBinding =
             FragmentHistoryRecyclerCityItemBinding.inflate(LayoutInflater.from(parent.context),
             parent,
             false
             )
-        return HistoryCityViewHolder(binding.root)
+        return HistoryViewHolder(binding.root)
     }
 
-    override fun onBindViewHolder(holder: HistoryCityViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         holder.bind(this.weatherData[position])
     }
 
@@ -39,13 +39,14 @@ class CitiesHistoryAdapter(val listener:OnItemClickListener):RecyclerView.Adapte
         return weatherData.size
     }
 
-    inner class HistoryCityViewHolder(view: View): RecyclerView.ViewHolder(view){
+    inner class HistoryViewHolder(view: View): RecyclerView.ViewHolder(view){
         fun bind(weather: Weather){
             with(FragmentHistoryRecyclerCityItemBinding.bind(itemView)){
                 cityName.text = weather.city.name
                 temperature.text = "${weather.temperature}"
                 feelsLike.text = "${weather.feelsLike}"
                 icon.loadUrl("https://yastatic.net/weather/i/icons/funky/dark/${weather.icon}.svg")
+
                 root.setOnClickListener{
                     listener.onInemClick(weather)
                 }

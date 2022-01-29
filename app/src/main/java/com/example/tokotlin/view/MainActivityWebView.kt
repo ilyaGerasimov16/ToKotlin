@@ -17,6 +17,7 @@ class MainActivityWebView : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainWebviewBinding
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainWebviewBinding.inflate(layoutInflater)
@@ -26,6 +27,8 @@ class MainActivityWebView : AppCompatActivity() {
         }
     }
 
+
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun request(urlString:String){
         lateinit var httpsURLConnection:HttpsURLConnection
         Thread{
@@ -53,6 +56,7 @@ class MainActivityWebView : AppCompatActivity() {
         }.start()
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun convertBufferToResult(bufferedReader: BufferedReader):String {
         return bufferedReader.lines().collect(Collectors.joining("\n"))
     }

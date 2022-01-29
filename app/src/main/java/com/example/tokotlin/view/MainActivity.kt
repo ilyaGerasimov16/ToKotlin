@@ -54,12 +54,11 @@ class MainActivity : AppCompatActivity() {
                     .addToBackStack("").commit()
                 true
             }
-            R.id.menu_history ->{
-                supportFragmentManager.beginTransaction().add(R.id.container, HistoryFragment.newInstance())
-                    .addToBackStack("").commit()
+            R.id.menu_history -> {
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.container, HistoryFragment.newInstance()).addToBackStack("").commit()
                 true
             }
-
             else ->{
                 super.onOptionsItemSelected(item)
             }
