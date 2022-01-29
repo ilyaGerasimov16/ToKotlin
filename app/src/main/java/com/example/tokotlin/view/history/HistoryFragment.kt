@@ -12,7 +12,6 @@ import com.example.tokotlin.model.Weather
 import com.example.tokotlin.view.main.OnCityItemClickListener
 import com.example.tokotlin.viewModel.AppState
 import com.example.tokotlin.viewModel.HistoryViewModel
-import com.google.android.material.snackbar.Snackbar
 
 
 class HistoryFragment : Fragment(), OnCityItemClickListener {

@@ -10,7 +10,8 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.example.tokotlin.databinding.FragmentHistoryRecyclerCityItemBinding
 import com.example.tokotlin.model.Weather
-import com.example.tokotlin.view.details.OnItemClickListener
+import com.example.tokotlin.view.main.OnCityItemClickListener
+import kotlinx.android.synthetic.main.fragment_details.view.*
 
 class CitiesHistoryAdapter(val listener: OnCityItemClickListener):RecyclerView.Adapter<CitiesHistoryAdapter.HistoryViewHolder>() {
     private var weatherData:List<Weather> = listOf()
@@ -48,7 +49,7 @@ class CitiesHistoryAdapter(val listener: OnCityItemClickListener):RecyclerView.A
                 icon.loadUrl("https://yastatic.net/weather/i/icons/funky/dark/${weather.icon}.svg")
 
                 root.setOnClickListener{
-                    listener.onInemClick(weather)
+                    listener.onItemClick(weather)
                 }
             }
         }

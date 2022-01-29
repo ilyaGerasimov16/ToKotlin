@@ -1,7 +1,6 @@
 package com.example.tokotlin.viewModel
 
 import com.example.tokotlin.model.Weather
-import com.example.tokotlin.model.WeatherDTO
 
 sealed class AppState {
     data class Loading(val progress:Int): AppState()

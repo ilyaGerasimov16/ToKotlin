@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.tokotlin.R
 import com.example.tokotlin.databinding.ActivityMainBinding
 import com.example.tokotlin.lesson6.ThreadsFragment
-import com.example.tokotlin.room.App
 import com.example.tokotlin.view.history.HistoryFragment
 import com.example.tokotlin.view.main.MainFragment
 

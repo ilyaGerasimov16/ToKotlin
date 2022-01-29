@@ -13,7 +13,6 @@ import coil.load
 import coil.request.ImageRequest
 import com.example.tokotlin.databinding.FragmentDetailsBinding
 import com.example.tokotlin.model.Weather
-import com.example.tokotlin.model.WeatherDTO
 import com.example.tokotlin.utils.BUNDLE_KEY
 import com.example.tokotlin.viewModel.AppState
 import com.example.tokotlin.viewModel.DetailsViewModel
@@ -74,10 +73,10 @@ class DetailsFragment : Fragment() {
     private fun setWeatherData(weather: Weather){
 
         with(binding){
-            //weatherIcon.setOnClickListener{
-                weather.city = localWeather.city
-                viewModel.saveWeather(weather)
-            //}
+
+            weather.city = localWeather.city
+            viewModel.saveWeather(weather)
+
             cityName.text = localWeather.city.name
             cityCoordinates.text = "${localWeather.city.lat}${localWeather.city.lon}"
             temperatureValue.text =  "${weather.temperature}"

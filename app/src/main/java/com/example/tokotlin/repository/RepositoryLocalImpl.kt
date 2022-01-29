@@ -27,9 +27,12 @@ class RepositoryLocalImpl: RepositoryCitiesList, RepositoryHistoryWeather{
     }
 
     override fun saveWeather(weather: Weather) {
-        App.getHistoryWeatherDAO().insert(
-            HistoryWeatherEntity(0,weather.city.name,weather.temperature,weather.feelsLike,weather.icon)
-        )
+        Thread{
+            App.getHistoryWeatherDAO().insert(
+                HistoryWeatherEntity(0,weather.city.name,weather.temperature,weather.feelsLike,weather.icon)
+            )
+        }.start()
+
     }
 
 }

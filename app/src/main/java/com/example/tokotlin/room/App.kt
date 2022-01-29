@@ -22,6 +22,7 @@ class App:Application() {
                     throw IllformedLocaleException("Всё сломалось")
                 } else{
                     db = Room.databaseBuilder(appInstance!!,HistoryDatabase::class.java, DB_NAME)
+                        //.allowMainThreadQueries()
                         .build()
                 }
             }
