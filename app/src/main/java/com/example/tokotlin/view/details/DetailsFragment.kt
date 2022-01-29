@@ -74,9 +74,10 @@ class DetailsFragment : Fragment() {
     private fun setWeatherData(weather: Weather){
 
         with(binding){
-            weatherIcon.setOnClickListener{
+            //weatherIcon.setOnClickListener{
+                weather.city = localWeather.city
                 viewModel.saveWeather(weather)
-            }
+            //}
             cityName.text = localWeather.city.name
             cityCoordinates.text = "${localWeather.city.lat}${localWeather.city.lon}"
             temperatureValue.text =  "${weather.temperature}"

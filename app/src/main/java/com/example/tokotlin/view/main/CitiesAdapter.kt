@@ -8,7 +8,7 @@ import com.example.tokotlin.databinding.FragmentMainRecyclerCityItemBinding
 import com.example.tokotlin.model.Weather
 import com.example.tokotlin.view.details.OnItemClickListener
 
-class MainFragmentAdapter(val listener:OnItemClickListener):RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
+class CitiesAdapter(val listener:OnItemClickListener):RecyclerView.Adapter<CitiesAdapter.MainViewHolder>() {
     private var weatherData:List<Weather> = listOf()
 
     fun setWeather(data:List<Weather>){
@@ -18,7 +18,7 @@ class MainFragmentAdapter(val listener:OnItemClickListener):RecyclerView.Adapter
 
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int
-    ): MainFragmentAdapter.MainViewHolder {
+    ): CitiesAdapter.MainViewHolder {
         val binding: FragmentMainRecyclerCityItemBinding =
             FragmentMainRecyclerCityItemBinding.inflate(LayoutInflater.from(parent.context),
             parent,
