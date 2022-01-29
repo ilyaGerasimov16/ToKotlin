@@ -11,6 +11,7 @@ import com.example.tokotlin.R
 import com.example.tokotlin.databinding.ActivityMainBinding
 import com.example.tokotlin.lesson6.ThreadsFragment
 import com.example.tokotlin.room.App
+import com.example.tokotlin.view.history.HistoryFragment
 import com.example.tokotlin.view.main.MainFragment
 
 
@@ -26,9 +27,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction().replace(R.id.container, MainFragment.newInstance()).commit()
         }
 
-        val sp = getSharedPreferences("TAG",Context.MODE_PRIVATE)
-
-        val activityP = getPreferences(Context.MODE_PRIVATE) // на уровне activity
+        val sPIsRussian = getPreferences(Context.MODE_PRIVATE) // на уровне activity
 
         val appP = getDefaultSharedPreferences(this) // на уровне приложения
 
@@ -41,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         editor.putBoolean("key4",true)
         editor.apply()
 
-        val listWeather = App.getHistoryWeatherDAO().getAllHistoryWeather()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -56,6 +54,12 @@ class MainActivity : AppCompatActivity() {
                     .addToBackStack("").commit()
                 true
             }
+            R.id.menu_history ->{
+                supportFragmentManager.beginTransaction().add(R.id.container, HistoryFragment.newInstance())
+                    .addToBackStack("").commit()
+                true
+            }
+
             else ->{
                 super.onOptionsItemSelected(item)
             }

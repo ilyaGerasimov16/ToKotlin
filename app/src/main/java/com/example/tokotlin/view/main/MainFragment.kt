@@ -1,6 +1,8 @@
 package com.example.tokotlin.view.main
 
+import android.content.Context
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,8 +26,8 @@ class MainFragment : Fragment(), OnItemClickListener {
         return _binding!!
     }
 
-    private val adapter:MainFragmentAdapter by lazy {
-        MainFragmentAdapter(this)
+    private val adapter:CitiesAdapter by lazy {
+        CitiesAdapter(this)
     }
 
     private var isRussian:Boolean = true
