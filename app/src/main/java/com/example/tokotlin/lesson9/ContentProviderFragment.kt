@@ -4,16 +4,14 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.ContactsContract
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import com.example.tokotlin.R
+import androidx.fragment.app.Fragment
 import com.example.tokotlin.databinding.FragmentContentProviderBinding
-import com.example.tokotlin.databinding.FragmentMainBinding
 
 
 class ContentProviderFragment : Fragment() {

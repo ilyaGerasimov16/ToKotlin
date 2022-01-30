@@ -1,5 +1,6 @@
 package com.example.tokotlin.room
 
+import android.database.Cursor
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -14,14 +15,11 @@ interface HistoryWeatherDAO {
     @Query("SELECT * FROM history_weather_entity")
     fun getAllHistoryWeather():List<HistoryWeatherEntity>
 
-    //fun getAllHistoryWeather() // TODO получить по какому-то полю
+/** Lesson 9 **/
+    @Query("DELETE FROM history_weather_entity WHERE id= :id")
+    fun delete(id: Long )
 
-
-    /*
-    @Delete
-    fun delete(entity: HistoryWeatherEntity)
-
-    @Update
-    fun update(entity: HistoryWeatherEntity)
-    */
+    @Query("SELECT * FROM history_weather_entity WHERE id= :id")
+    fun getHistoryCursor(id: Long ):Cursor
+/****/
 }
