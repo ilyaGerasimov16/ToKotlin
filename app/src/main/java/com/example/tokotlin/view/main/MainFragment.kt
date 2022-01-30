@@ -30,7 +30,7 @@ class MainFragment : Fragment(), OnItemClickListener {
 
     private var isRussian:Boolean = true
 
-    private val viewModel: MainViewModel by lazy {
+        private val viewModel: MainViewModel by lazy {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
 
@@ -81,6 +81,7 @@ class MainFragment : Fragment(), OnItemClickListener {
                     adapter.setWeather(appState.weatherDataCity)
                     root.showSnackBarWithoutAction("Success",Snackbar.LENGTH_SHORT)
                 }
+                else -> {}
             }
         }
     }

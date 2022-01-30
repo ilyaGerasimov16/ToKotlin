@@ -1,9 +1,7 @@
 package com.example.tokotlin.view
 
 
-import android.content.Context
 import android.os.Bundle
-import android.preference.PreferenceManager.getDefaultSharedPreferences
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -25,20 +23,6 @@ class MainActivity : AppCompatActivity() {
         if(savedInstanceState == null) {
             supportFragmentManager.beginTransaction().replace(R.id.container, MainFragment.newInstance()).commit()
         }
-
-        val sPIsRussian = getPreferences(Context.MODE_PRIVATE) // на уровне activity
-
-        val appP = getDefaultSharedPreferences(this) // на уровне приложения
-
-        appP.getString("key", "")
-
-        val editor = appP.edit()
-        editor.putString("key","value")
-        editor.putString("key2","value2")
-        editor.putString("key3","value3")
-        editor.putBoolean("key4",true)
-        editor.apply()
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
