@@ -2,6 +2,8 @@ package com.example.tokotlin.room
 
 import android.app.Application
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import java.util.*
 
 class App:Application() {
@@ -13,7 +15,7 @@ class App:Application() {
 
     companion object{
         private var appInstance:App? = null
-        const val DB_NAME = "History.db"
+        private const val DB_NAME = "History.db"
         private var db:HistoryDatabase? = null
 
         fun getHistoryWeatherDAO():HistoryWeatherDAO{
@@ -22,7 +24,11 @@ class App:Application() {
                     throw IllformedLocaleException("Всё сломалось")
                 } else{
                     db = Room.databaseBuilder(appInstance!!,HistoryDatabase::class.java, DB_NAME)
-                        //.allowMainThreadQueries()
+                        .addMigrations(object :Migration(1,2){
+                            override fun migrate(database: SupportSQLiteDatabase) {
+                                database.execSQL("ALTER TABLE history_weather_entity RENAME COLUMN icon TO icon2")
+                            }
+                        })
                         .build()
                 }
             }
