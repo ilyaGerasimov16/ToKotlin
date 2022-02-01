@@ -1,9 +1,13 @@
 package com.example.tokotlin.view.main
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tokotlin.R
@@ -47,7 +51,70 @@ class MainFragment : Fragment(), OnItemClickListener {
             mainFragmentFAB.setOnClickListener {
                 sentRequest()
             }
+            mainFragmentFABLocation.setOnClickListener {
+                checkPermission()
+            }
         }
+    }
+
+    private fun checkPermission(){
+        context?.let {
+            when{
+                ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED -> {
+                    getLocation()
+                }
+                shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                    showDialog()
+                }
+                else ->{
+                    myRequestPermissions()
+                }
+            }
+        }
+    }
+
+    private fun getLocation(){
+
+    }
+
+    private val REQUEST_CODE = 991
+    private fun myRequestPermissions(){
+        requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if(requestCode == REQUEST_CODE){
+
+            when{
+                (grantResults[0] == PackageManager.PERMISSION_GRANTED) ->{
+                    getLocation()
+                }
+                shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                    showDialog()
+                }
+                else -> {
+//
+                }
+            }
+        }
+    }
+
+
+    private fun showDialog(){
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.dialog_rationale_title))
+            .setMessage(getString(R.string.dialog_rationale_meaasge))
+            .setPositiveButton(getString(R.string.dialog_rationale_give_access)){_,_ ->
+                myRequestPermissions()
+            }
+            .setNegativeButton(getString(R.string.dialog_rationale_decline)) {dialog, _ -> dialog.dismiss()}
+            .create()
+            .show()
     }
 
     private fun sentRequest(){
