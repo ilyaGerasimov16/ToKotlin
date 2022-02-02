@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tokotlin.R
 import com.example.tokotlin.databinding.ActivityMainBinding
+import com.example.tokotlin.lesson10.MapsFragment
 import com.example.tokotlin.lesson6.ThreadsFragment
 import com.example.tokotlin.lesson9.ContentProviderFragment
 import com.example.tokotlin.view.history.HistoryFragment
@@ -46,6 +47,11 @@ class MainActivity : AppCompatActivity() {
             R.id.menu_content -> {
                 supportFragmentManager.beginTransaction()
                     .add(R.id.container, ContentProviderFragment.newInstance()).addToBackStack("").commit()
+                true
+            }
+            R.id.menu_google_maps -> {
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.container, MapsFragment()).addToBackStack("").commit()
                 true
             }
             else ->{
