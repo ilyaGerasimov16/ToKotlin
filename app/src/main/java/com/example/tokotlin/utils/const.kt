@@ -9,3 +9,6 @@ const val BUNDLE_KEY_LON = "key_lon"
 
 const val YANDEX_API_URL = "https://api.weather.yandex.ru/"
 const val YANDEX_API_URL_END_POINT = "v2/informers"
+
+const val MIN_DISTANCE = 100f
+const val REFRESH_PERIOD = 60000L
