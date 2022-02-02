@@ -3,6 +3,7 @@ package com.example.tokotlin.view.main
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tokotlin.R
 import com.example.tokotlin.databinding.FragmentMainBinding
+import com.example.tokotlin.model.City
 import com.example.tokotlin.model.Weather
 import com.example.tokotlin.utils.BUNDLE_KEY
 import com.example.tokotlin.utils.MIN_DISTANCE
@@ -81,8 +83,26 @@ class MainFragment : Fragment(), OnItemClickListener {
         }
     }
 
+    private fun showAddressDialog(address:String, location:Location){
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.dialog_address_tittle))
+            .setMessage(address)
+            .setPositiveButton(getString(R.string.dialog_address_get_weather)){_,_ ->
+                toDetails(Weather(City(address,location.latitude,location.longitude)))
+            }
+            .setNegativeButton(getString(R.string.dialog_reject)) {dialog, _ -> dialog.dismiss()}
+            .create()
+            .show()
+    }
+
     private fun getAddress(location: Location){
-        Log.d("","$location")
+        Thread{
+            val geocoder = Geocoder(requireContext())
+            val listAddress = geocoder.getFromLocation(location.latitude,location.longitude,1)
+            requireActivity().runOnUiThread{
+                showAddressDialog(listAddress[0].getAddressLine(0),location)
+            }
+        }.start()
     }
 
     private val locationListener = object : LocationListener{
@@ -234,12 +254,17 @@ class MainFragment : Fragment(), OnItemClickListener {
     }
 
     override fun onInemClick(weather: Weather) {
+        toDetails(weather)
+    }
+
+    private fun toDetails(weather: Weather) {
         activity?.run {
-            supportFragmentManager.beginTransaction().
-            add(R.id.container, DetailsFragment.newInstance(
-                Bundle().apply {
-                putParcelable(BUNDLE_KEY, weather)
-            }))
+            supportFragmentManager.beginTransaction().add(
+                R.id.container, DetailsFragment.newInstance(
+                    Bundle().apply {
+                        putParcelable(BUNDLE_KEY, weather)
+                    })
+            )
                 .addToBackStack("").commit()
         }
     }
