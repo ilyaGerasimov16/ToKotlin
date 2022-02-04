@@ -33,7 +33,6 @@ class MapsFragment : Fragment() {
     private val callback = OnMapReadyCallback { googleMap ->
         map = googleMap
         val moscow = LatLng(55.755826, 37.6172999)
-        googleMap.addMarker(MarkerOptions().position(moscow).title("Marker in Moscow"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(moscow))
         googleMap.setOnMapLongClickListener {
             getAddress(it)
@@ -81,7 +80,20 @@ class MapsFragment : Fragment() {
         mapFragment?.getMapAsync(callback)
 
         binding.buttonSearch.setOnClickListener{
-
+            search()
         }
+    }
+
+    private fun search(){
+        Thread{
+            val geocoder = Geocoder(requireContext())
+            val listAddress = geocoder.getFromLocationName(binding.searchAddress.text.toString(),1)
+            requireActivity().runOnUiThread{
+                map.moveCamera(CameraUpdateFactory
+                    .newLatLngZoom(LatLng(listAddress[0].latitude,listAddress[0].longitude),15f))
+                map.addMarker(MarkerOptions()
+                    .position(LatLng(listAddress[0].latitude,listAddress[0].longitude)).title(""))
+            }
+        }.start()
     }
 }
