@@ -1,5 +1,7 @@
 package com.example.tokotlin.lesson10
 
+import android.location.Geocoder
+import android.location.Location
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
@@ -7,42 +9,81 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.tokotlin.R
+import com.example.tokotlin.databinding.FragmentGoogleMapsMainBinding
+import com.example.tokotlin.databinding.FragmentMainBinding
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
 class MapsFragment : Fragment() {
 
+    private var _binding: FragmentGoogleMapsMainBinding? = null
+    private val binding: FragmentGoogleMapsMainBinding
+        get(){
+            return _binding!!
+        }
+
+    lateinit var map:GoogleMap
+    val markers = arrayListOf<Marker>()
+
     private val callback = OnMapReadyCallback { googleMap ->
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        map = googleMap
+        val moscow = LatLng(55.755826, 37.6172999)
+        googleMap.addMarker(MarkerOptions().position(moscow).title("Marker in Moscow"))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(moscow))
+        googleMap.setOnMapLongClickListener {
+            getAddress(it)
+            addMarker(it)
+        }
+    }
+
+    private fun addMarker(location: LatLng){
+
+        val marker = map.addMarker(MarkerOptions().position(location)
+            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker)))
+        markers.add(marker)
+
+        Thread{
+            val geocoder = Geocoder(requireContext())
+            val listAddress = geocoder.getFromLocation(location.latitude,location.longitude,1)
+            requireActivity().runOnUiThread{
+                binding.textAddress.text = listAddress[0].getAddressLine(0)
+            }
+        }.start()
+    }
+
+    private fun getAddress(location: LatLng){
+        Thread{
+            val geocoder = Geocoder(requireContext())
+            val listAddress = geocoder.getFromLocation(location.latitude,location.longitude,1)
+            requireActivity().runOnUiThread{
+                binding.textAddress.text = listAddress[0].getAddressLine(0)
+            }
+        }.start()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_maps, container, false)
+    ): View {
+        _binding = FragmentGoogleMapsMainBinding.inflate(inflater, container,false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
+
+        binding.buttonSearch.setOnClickListener{
+
+        }
     }
 }
