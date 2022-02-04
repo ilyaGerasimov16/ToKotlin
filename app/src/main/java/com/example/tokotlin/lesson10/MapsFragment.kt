@@ -96,7 +96,8 @@ class MapsFragment : Fragment() {
                 map.moveCamera(CameraUpdateFactory
                     .newLatLngZoom(LatLng(listAddress[0].latitude,listAddress[0].longitude),15f))
                 map.addMarker(MarkerOptions()
-                    .position(LatLng(listAddress[0].latitude,listAddress[0].longitude)).title(""))
+                    .position(LatLng(listAddress[0].latitude,listAddress[0].longitude)).title("")
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_pin)))
             }
         }.start()
     }
