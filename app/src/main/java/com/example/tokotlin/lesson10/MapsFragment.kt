@@ -1,5 +1,6 @@
 package com.example.tokotlin.lesson10
 
+import android.graphics.Color
 import android.location.Geocoder
 import android.location.Location
 import androidx.fragment.app.Fragment
@@ -16,10 +17,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 
 class MapsFragment : Fragment() {
 
@@ -29,8 +27,8 @@ class MapsFragment : Fragment() {
             return _binding!!
         }
 
-    lateinit var map:GoogleMap
-    val markers = arrayListOf<Marker>()
+    private lateinit var map:GoogleMap
+    private val markers = arrayListOf<Marker>()
 
     private val callback = OnMapReadyCallback { googleMap ->
         map = googleMap
@@ -40,22 +38,22 @@ class MapsFragment : Fragment() {
         googleMap.setOnMapLongClickListener {
             getAddress(it)
             addMarker(it)
+            drawLine()
+        }
+    }
+
+    private fun drawLine(){
+        val last = markers.size
+        if(last>1){
+            map.addPolyline(PolylineOptions().add(markers[last-1].position,markers[last-2].position)
+                .color(Color.RED).width(5f))
         }
     }
 
     private fun addMarker(location: LatLng){
-
         val marker = map.addMarker(MarkerOptions().position(location)
             .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map_marker)))
         markers.add(marker)
-
-        Thread{
-            val geocoder = Geocoder(requireContext())
-            val listAddress = geocoder.getFromLocation(location.latitude,location.longitude,1)
-            requireActivity().runOnUiThread{
-                binding.textAddress.text = listAddress[0].getAddressLine(0)
-            }
-        }.start()
     }
 
     private fun getAddress(location: LatLng){
