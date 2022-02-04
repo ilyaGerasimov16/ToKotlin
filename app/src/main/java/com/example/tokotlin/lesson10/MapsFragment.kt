@@ -39,6 +39,10 @@ class MapsFragment : Fragment() {
             addMarker(it)
             drawLine()
         }
+
+        googleMap.isMyLocationEnabled = true // TODO проверить разрешение еа геолокацию
+        googleMap.uiSettings.isZoomControlsEnabled = true
+
     }
 
     private fun drawLine(){
