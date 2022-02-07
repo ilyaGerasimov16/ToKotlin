@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "213792359616",
+    "project_id": "tokotlin-3db53",
+    "storage_bucket": "tokotlin-3db53.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213792359616:android:3bb8f46e7151efeab69925",
+        "android_client_info": {
+          "package_name": "com.example.tokotlin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213792359616-aiu97ldv9j5tdth8ei8scjr0b48ars6u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuEYd5ksUA9iGoRu_SyiMYPzCCQjCB9ZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213792359616-aiu97ldv9j5tdth8ei8scjr0b48ars6u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
